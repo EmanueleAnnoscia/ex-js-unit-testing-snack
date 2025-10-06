@@ -52,6 +52,21 @@ function removePost(posts, id){
     posts.splice(index, 1)
 }
 
+function addPostCheck(posts, newPost) {
+    // Controlla se esiste già un post con lo stesso id
+    if (posts.some(p => p.id === newPost.id)) {
+        throw new Error("Id già esistente");
+    }
+
+    // Controlla se esiste già un post con lo stesso slug
+    if (posts.some(p => p.slug === newPost.slug)) {
+        throw new Error("Slug già esistente");
+    }
+
+    posts.push(newPost);
+}
+
+
 module.exports = { getInitials,
     createSlug,
     average,
@@ -60,5 +75,6 @@ module.exports = { getInitials,
     createSlugEmpty,
     findPostById,
     addPost,
-    removePost
+    removePost,
+    addPostCheck,
  };

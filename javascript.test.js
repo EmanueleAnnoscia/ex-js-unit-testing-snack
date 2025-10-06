@@ -1,4 +1,4 @@
-const { getInitials, createSlug, average, createSlug1, isPalindrome, createSlugEmpty, findPostById, addPost, removePost } = require("./refactoring");
+const { getInitials, createSlug, average, createSlug1, isPalindrome, createSlugEmpty, findPostById, addPost, removePost, addPostCheck } = require("./refactoring");
 const { afterEach } = require("jest-circus");
 
 
@@ -82,11 +82,11 @@ describe("Boolean Snack", () => {
 
     //test 8
     test("Dopo aver aggiunto un post con la funzione addPost, l'array posts deve contenere un elemento in più.", () => {
-        addPost (posts, {
-                id: 5,
-                title: "Creare uno slug da una stringa 5",
-                slug: "creare-uno-slug-da-una-stringa-5"
-            })
+        addPost(posts, {
+            id: 5,
+            title: "Creare uno slug da una stringa 5",
+            slug: "creare-uno-slug-da-una-stringa-5"
+        })
         expect(posts).toHaveLength(5)
     })
 
@@ -94,5 +94,29 @@ describe("Boolean Snack", () => {
         removePost(posts, 2);
         expect(posts).toHaveLength(3)
     })
+
+    //test 9
+    test("Se si tenta di aggiungere un post con un id già esistente, la funzione addPost deve lanciare un errore.", () => {
+        expect(() => {
+            addPostCheck(posts, {
+                id: 1,  // già esistente
+                title: "Titolo duplicato",
+                slug: "titolo-duplicato"
+            });
+        }).toThrow("Id già esistente");
+    });
+
+
+    //test 10
+    test("Se si tenta di aggiungere un post con uno slug già esistente, la funzione addPost deve lanciare un errore.", () => {
+        expect(() => {
+            addPostCheck(posts, {
+                id: 99,
+                title: "Altro titolo",
+                slug: "introduzione-a-javascript" // già esistente
+            });
+        }).toThrow("Slug già esistente");
+    });
+
 
 });
